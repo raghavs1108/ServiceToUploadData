@@ -11,19 +11,19 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class AsyncDataTransfer extends AsyncTask<JSONObject, Void, Void> {
-    private JSONObject jsonData;
+public class AsyncDataTransfer extends AsyncTask<String, Void, Void> {
+    private String data;
     private boolean success;
     private String ipaddr = "10.182.0.111";
-    private int port = 8000;
+    private int port = 8080;
     String TAG = "AsyncDataTransfer";
 
     @Override
-    protected Void doInBackground(JSONObject... params) {
+    protected Void doInBackground(String... params) {
         Socket socket = null;
         DataInputStream dataInputStream = null;
         DataOutputStream dataOutputStream = null;
-        jsonData = params[0];
+        data = params[0];
 
         try {
             // Create a new Socket instance and connect to host
@@ -34,7 +34,7 @@ public class AsyncDataTransfer extends AsyncTask<JSONObject, Void, Void> {
             dataInputStream = new DataInputStream(socket.getInputStream());
 
             // transfer JSONObject as String to the server
-            dataOutputStream.writeUTF(jsonData.toString());
+            dataOutputStream.writeBytes(data);
             Log.i(TAG, "waiting for response from host");
 
             // Thread will wait till server replies
@@ -54,8 +54,8 @@ public class AsyncDataTransfer extends AsyncTask<JSONObject, Void, Void> {
             if (socket != null) {
                 try {
                     Log.i(TAG, "closing the socket");
-                    socket.close();
-                } catch (IOException e) {
+//                    socket.close();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

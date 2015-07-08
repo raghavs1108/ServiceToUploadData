@@ -263,17 +263,20 @@ public class StepService extends Service implements SensorEventListener {
 
     public void postData(String[] dataToSend) {
         AsyncDataTransfer transfer = new AsyncDataTransfer();
-        JSONObject jsonData = new JSONObject();
+        String data = "";
         try {
             for(int i = 0; i < dataToSend.length; i++) {
-                jsonData.put("data"+i, dataToSend[i]);
+                data += "data"+i+"#"+ dataToSend[i];
+                if(i != dataToSend.length-1){
+                    data += ";";
+                }
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Log.e("Exception: ", "can't put request");
             return;
         }
-        transfer.execute(jsonData);
+        transfer.execute(data);
 /*
         HashMap<String, String> data = new HashMap<String, String>();
         for(int i = 0;i < dataToSend.length; i++){

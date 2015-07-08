@@ -30,12 +30,12 @@ public class MainActivity extends ActionBarActivity implements DataChangeListene
             StrictMode.setThreadPolicy(policy);
         }
         timestampText = (TextView) findViewById(R.id.timestamp_text);
-        Button printTimestampButton = (Button) findViewById(R.id.print_timestamp);
+        Button captureButton = (Button) findViewById(R.id.capture);
         Button stopServiceButon = (Button) findViewById(R.id.stop_service);
-        printTimestampButton.setOnClickListener(new OnClickListener() {
+        captureButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearAll();
+                sendCaptureSignal();
             }
         });
 
@@ -56,6 +56,11 @@ public class MainActivity extends ActionBarActivity implements DataChangeListene
 
     private void clearAll() {
         cumulativeDistance = 0;
+    }
+
+    public void sendCaptureSignal(){
+        AsyncDataTransfer transfer = new AsyncDataTransfer();
+        transfer.execute("capture");
     }
 
     @Override
